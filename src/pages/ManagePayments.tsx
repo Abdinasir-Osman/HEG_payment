@@ -88,6 +88,17 @@ export default function ManagePayments() {
     if (!selectedPlan) return;
 
     const amountPaid = parseFloat(formData.amount_paid);
+    
+    // Validate that amount paid doesn't exceed plan amount
+    if (amountPaid > selectedPlan.amount) {
+      toast({
+        title: "Invalid Amount",
+        description: `Amount paid ($${amountPaid}) cannot exceed plan amount ($${selectedPlan.amount})`,
+        variant: "destructive",
+      });
+      return;
+    }
+    
     const amountRemaining = Math.max(0, selectedPlan.amount - amountPaid);
     
     let status: "paid" | "unpaid" | "partial" = "unpaid";
@@ -265,11 +276,17 @@ export default function ManagePayments() {
                   type="number"
                   step="0.01"
                   min="0"
+                  max={plans?.find(p => p.id === formData.plan_id)?.amount || undefined}
                   value={formData.amount_paid}
                   onChange={(e) => setFormData(prev => ({ ...prev, amount_paid: e.target.value }))}
                   placeholder="Enter amount paid"
                   required
                 />
+                {formData.plan_id && plans?.find(p => p.id === formData.plan_id) && (
+                  <p className="text-sm text-muted-foreground">
+                    Maximum allowed: ${plans.find(p => p.id === formData.plan_id)?.amount}
+                  </p>
+                )}
               </div>
 
               <div className="flex gap-4">
