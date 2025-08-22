@@ -185,6 +185,9 @@ export default function Reports() {
   const paidCount = payments?.filter(p => p.status === "paid").length || 0;
   const unpaidCount = payments?.filter(p => p.status === "unpaid").length || 0;
   const partialCount = payments?.filter(p => p.status === "partial").length || 0;
+  
+  // Calculate total amount from all payments
+  const totalAmount = payments?.reduce((sum, payment) => sum + payment.amount_paid, 0) || 0;
 
   return (
     <div className="space-y-6">
@@ -308,6 +311,10 @@ export default function Reports() {
               <div className="flex justify-between items-center">
                 <span>Partial</span>
                 <span className="font-semibold text-orange-600">{partialCount}</span>
+              </div>
+                 <div className="flex justify-between items-center">
+                <span>Total Amount</span>
+                <span className="font-semibold text-blue-600">${totalAmount.toLocaleString()}</span>
               </div>
               <div className="border-t pt-4">
                 <div className="flex justify-between items-center">
