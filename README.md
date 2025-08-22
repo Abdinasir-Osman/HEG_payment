@@ -34,7 +34,7 @@ Before running this project, make sure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/HEG_payment.git
+git clone https://github.com/Abdinasir-Osman/HEG_payment.git
 cd HEG_payment
 ```
 
